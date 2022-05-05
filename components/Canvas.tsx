@@ -1,7 +1,7 @@
 import { createDistribution, randomIndex } from '@/features/mathUtils';
 import Asset from 'interfaces/Asset';
 import Trait from 'interfaces/Trait';
-import { useRef, useState } from 'react';
+import { LegacyRef, useRef, useState } from 'react';
 import { useStore } from 'react-redux';
 import Button from './buttons/Button';
 
@@ -10,8 +10,14 @@ export default function Canvas() {
 
   const store = useStore<{ traits: Trait[]; assets: Asset[] }>();
   const [rarity, setRarity] = useState<number>(0);
+  const [traits, setTraits] = useState<Trait[]>(store.getState().traits);
 
-  async function drawImage(context, src, x, y) {
+  async function drawImage(
+    context: CanvasRenderingContext2D,
+    src: string,
+    x: number,
+    y: number,
+  ) {
     return new Promise((resolve, reject) => {
       if (!src) return reject();
       var image = new Image();
@@ -20,8 +26,8 @@ export default function Canvas() {
           image,
           x,
           y,
-          canvas.current.width,
-          (canvas.current.height * image.height) / image.width,
+          canvas?.current?.width ?? 0,
+          ((canvas?.current?.height ?? 0) * image.height) / image.width,
         );
         resolve(true);
         console.log('printed');
@@ -31,9 +37,14 @@ export default function Canvas() {
     });
   }
 
+  store.subscribe(() => {
+    setTraits(store.getState().traits);
+  });
+
   function generate() {
     if (canvas.current) {
       const ctx = canvas.current.getContext('2d');
+      if (!ctx) return;
       ctx.clearRect(0, 0, canvas.current.width, canvas.current.height);
       let _rarity = 0;
 
@@ -67,11 +78,11 @@ export default function Canvas() {
     <div className="flex flex-col gap-6 p-12 items-center">
       <canvas
         className="rounded-xl bg-palette-3"
-        ref={canvas}
+        ref={canvas as LegacyRef<HTMLCanvasElement>}
         width="500px"
         height={500}></canvas>
       <p>
-        Rarity : {rarity.toFixed(2)}/{store.getState().traits.length * 100}
+        Rarity : {rarity.toFixed(2)}/{traits.length * 100}
       </p>
       <Button type="cta" onClick={generate}>
         Generate

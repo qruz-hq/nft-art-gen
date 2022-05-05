@@ -17,7 +17,7 @@ export default function TraitButton({ trait }: TraitButtonProps) {
   }
 
   function handleDragStart(e: React.DragEvent) {
-    e.dataTransfer.setData('text/plain', trait.id);
+    e.dataTransfer.setData('text/plain', '' + trait.id);
   }
 
   function handleDrop(e: React.DragEvent<HTMLDivElement>) {
@@ -60,7 +60,7 @@ export default function TraitButton({ trait }: TraitButtonProps) {
         draggable={true}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
-        onDragOver={e => {
+        onDragOver={(e: Event) => {
           e.preventDefault();
         }}
         data-trait={trait.id}

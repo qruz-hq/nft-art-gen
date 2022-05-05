@@ -1,5 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import readImage from '@/features/images';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, LegacyRef, useRef, useState } from 'react';
 import Button from '../buttons/Button';
 
 interface FileUploadModalProps {
@@ -13,13 +14,13 @@ export default function FileUploadModal({ onLoad }: FileUploadModalProps) {
   const [progress, setProgress] = useState(0);
   const [success, setSuccess] = useState(false);
   const [uploaded, setUploaded] = useState(false);
-  const [image, setImage] = useState<String>('');
-  const title = useRef(null);
-  const label = useRef(null);
+  const [image, setImage] = useState<string>('');
+  const title = useRef<HTMLInputElement>(null);
+  const label = useRef<HTMLLabelElement>(null);
 
-  const onChange = async e => {
+  const onChange = async (e: any) => {
+    if (!e || e === null) return;
     setFile(e.target.files[0]);
-    console.log('ok');
     setImage(await readImage(e.target.files[0]));
   };
 
@@ -90,7 +91,7 @@ export default function FileUploadModal({ onLoad }: FileUploadModalProps) {
           {!image && (
             <>
               <label
-                ref={label}
+                ref={label as LegacyRef<HTMLLabelElement>}
                 htmlFor="fileUpload"
                 className="flex flex-col items-center justify-center 
                 border-dotted border-4 border-palette-4 relative

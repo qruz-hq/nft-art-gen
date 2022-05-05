@@ -15,7 +15,7 @@ export const createDistribution = (
   return distribution;
 };
 
-export const randomIndex = distribution => {
+export const randomIndex = (distribution: Array<any>) => {
   const index = Math.floor(distribution.length * Math.random()); // random index
   return distribution[index];
 };

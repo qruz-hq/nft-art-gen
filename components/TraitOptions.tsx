@@ -18,7 +18,7 @@ export default function TraitOptions() {
     store.getState().assets.filter(a => a.traitId === trait?.id),
   );
 
-  const title = useRef(null);
+  const title = useRef<HTMLInputElement>(null);
 
   store.subscribe(() => {
     const newTrait = store
@@ -31,7 +31,7 @@ export default function TraitOptions() {
         .assets.filter(a => a.traitId === store.getState().ui.traitMenu),
     );
 
-    if (title.current) title.current.value = newTrait?.name;
+    if (title.current) title.current.value = newTrait?.name ?? 'New Trait';
   });
 
   function _addAsset(src: string, name: string) {
