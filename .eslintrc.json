@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "prettier",
+    "next/core-web-vitals",
+    "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["**/?(*.)+(spec|test).[jt]s?(x)"]
+    }
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "max-len": ["error", { "code": 80 }],
+    "import/extensions": 0,
+    "react/jsx-filename-extension": "off",
+    "react/jsx-no-undef": "off"
+  }
+}

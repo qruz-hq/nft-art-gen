@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  @apply text-palette-4;
+  @apply font-semibold;
+  padding: 0;
+  margin: 0;
+  font-family: Jaldi, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  height: 100%;
+  width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Slider */
+input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  @apply bg-palette-5;
+  @apply w-3;
+  @apply h-3;
+  @apply rounded-full;
+  @apply cursor-pointer;
+}
