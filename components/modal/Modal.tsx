@@ -46,9 +46,9 @@ export default function Modal({ modalName, onData, children }: any) {
   if (isOpen) {
     return (
       <>
-        <div className="fixed inset-0 z-10 w-screen h-screen backdrop-blur-sm">
+        <div className="transition-all fixed inset-0 z-10 w-screen h-screen backdrop-blur-sm">
           <div
-            className="fixed inside-0 z-10 flex items-center justify-center 
+            className="animate-pop fixed inside-0 z-10 flex items-center justify-center 
           w-screen h-screen ">
             <div className="bg-palette-2 rounded-xl flex p-8 w-96">
               {children}

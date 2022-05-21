@@ -91,6 +91,9 @@ const assetSlice = createSlice({
         );
       }
     },
+    removeAssetsFromTrait: (state, action) => {
+      return state.filter(asset => asset.traitId !== action.payload);
+    },
     clear: (state, action) => {
       state = [];
     },
@@ -104,6 +107,7 @@ export const {
   removeAsset,
   updateAssetPercentage,
   toggleLocked,
+  removeAssetsFromTrait,
   clear,
 } = assetSlice.actions;
 

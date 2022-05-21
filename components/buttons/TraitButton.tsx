@@ -1,7 +1,10 @@
-import { swapIndexes } from '@/features/traitSlice';
+import { removeAssetsFromTrait } from '@/features/assetSlice';
+import { removeTrait, swapIndexes } from '@/features/traitSlice';
 import { setTraitMenu } from '@/features/uiSlice';
+import { XIcon } from '@heroicons/react/solid';
 import Trait from 'interfaces/Trait';
 import { UIState } from 'interfaces/UI';
+import { useState } from 'react';
 import { useStore } from 'react-redux';
 import Button from './Button';
 
@@ -10,6 +13,7 @@ interface TraitButtonProps {
 }
 
 export default function TraitButton({ trait }: TraitButtonProps) {
+  const [showClose, setShowClose] = useState(false);
   const store = useStore<{ traits: Trait[]; ui: UIState }>();
 
   function openMenu() {
@@ -45,28 +49,43 @@ export default function TraitButton({ trait }: TraitButtonProps) {
     e.stopPropagation();
   }
 
+  function _deleteTrait() {
+    store.dispatch(removeTrait(trait.id));
+    store.dispatch(removeAssetsFromTrait(trait.id));
+  }
+
   return (
-    <div draggable>
-      <Button
-        className={
-          `cursor-ns-resize ` +
-          (trait.id === store.getState().ui.traitMenu
-            ? 'bg-palette-4 text-palette-1'
-            : '')
-        }
-        onClick={() => openMenu()}
-        onDragStart={handleDragStart}
-        onDrop={handleDrop}
-        draggable={true}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDragOver={(e: Event) => {
-          e.preventDefault();
-        }}
-        data-trait={trait.id}
-        id={`trait-${trait.id}`}>
-        {trait.name}
-      </Button>
+    <div
+      className="relative"
+      onPointerEnter={() => setShowClose(true)}
+      onPointerLeave={() => setShowClose(false)}>
+      <div draggable>
+        <Button
+          className={
+            `cursor-ns-resize transition-colors ` +
+            (trait.id === store.getState().ui.traitMenu
+              ? 'bg-palette-4 text-palette-1'
+              : 'hover:bg-palette-2')
+          }
+          onClick={() => openMenu()}
+          onDragStart={handleDragStart}
+          onDrop={handleDrop}
+          draggable={true}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={(e: Event) => {
+            e.preventDefault();
+          }}
+          data-trait={trait.id}
+          id={`trait-${trait.id}`}>
+          {trait.name}
+        </Button>
+      </div>
+      {showClose && (
+        <div className="absolute cursor-pointer animate-pop right-[-10px] top-[-10px] bg-palette-3 rounded-full p-1">
+          <XIcon className="h-5 w-5 text-palette-5" onClick={_deleteTrait} />
+        </div>
+      )}
     </div>
   );
 }

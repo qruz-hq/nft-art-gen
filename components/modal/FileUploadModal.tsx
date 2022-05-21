@@ -1,8 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import {
-  addAsset, removeAsset,
-  updateAsset
-} from '@/features/assetSlice';
+import { addAsset, removeAsset, updateAsset } from '@/features/assetSlice';
 import readImage from '@/features/images';
 import { closeModal } from '@/features/uiSlice';
 import Asset from 'interfaces/Asset';

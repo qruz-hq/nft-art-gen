@@ -17,7 +17,17 @@ module.exports = {
     fontFamily: {
       body: ['"Jaldi"'],
     },
-    extend: {},
+    extend: {
+      animation: {
+        pop: 'pop 0.2s ease-in-out 1',
+      },
+      keyframes: {
+        pop: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.15)' },
+        },
+      },
+    },
   },
   // eslint-disable-next-line import/no-extraneous-dependencies
   // eslint-disable-next-line global-require
