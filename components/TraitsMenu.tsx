@@ -24,12 +24,14 @@ export default function TraitsMenu() {
 
   return (
     <>
-      {traits &&
-        traits.map((trait, index) => (
-          <TraitButton key={`trait-${index}`} trait={trait} />
-        ))}
+      <div className="overflow-y-auto rounded-xl max-h-[75%] flex flex-col gap-2 w-full">
+        {traits &&
+          traits.map((trait, index) => (
+            <TraitButton key={`trait-${index}`} trait={trait} />
+          ))}
+      </div>
       <Button
-        className="mt-12"
+        className="my-6 mx-auto "
         type="cta"
         onClick={() => _addTrait('New Trait')}>
         Add trait

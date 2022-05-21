@@ -58,34 +58,33 @@ export default function TraitButton({ trait }: TraitButtonProps) {
     <div
       className="relative"
       onPointerEnter={() => setShowClose(true)}
-      onPointerLeave={() => setShowClose(false)}>
-      <div draggable>
-        <Button
-          className={
-            `cursor-ns-resize transition-colors ` +
-            (trait.id === store.getState().ui.traitMenu
-              ? 'bg-palette-4 text-palette-1'
-              : 'hover:bg-palette-2')
-          }
-          onClick={() => openMenu()}
-          onDragStart={handleDragStart}
-          onDrop={handleDrop}
-          draggable={true}
-          onDragEnter={handleDragEnter}
-          onDragLeave={handleDragLeave}
-          onDragOver={(e: Event) => {
-            e.preventDefault();
-          }}
-          data-trait={trait.id}
-          id={`trait-${trait.id}`}>
-          {trait.name}
-        </Button>
-      </div>
-      {showClose && (
-        <div className="absolute cursor-pointer animate-pop right-[-10px] top-[-10px] bg-palette-3 rounded-full p-1">
-          <XIcon className="h-5 w-5 text-palette-5" onClick={_deleteTrait} />
-        </div>
-      )}
+      onPointerLeave={() => setShowClose(false)}
+      draggable>
+      <Button
+        className={
+          `relative cursor-ns-resize transition-colors my-2 block mx-auto ` +
+          (trait.id === store.getState().ui.traitMenu
+            ? 'bg-palette-4 text-palette-1'
+            : 'hover:bg-palette-2')
+        }
+        onClick={() => openMenu()}
+        onDragStart={handleDragStart}
+        onDrop={handleDrop}
+        draggable={true}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDragOver={(e: Event) => {
+          e.preventDefault();
+        }}
+        data-trait={trait.id}
+        id={`trait-${trait.id}`}>
+        {trait.name}
+        {showClose && (
+          <div className="transition absolute cursor-pointer animate-pop right-[5px] top-[12px] bg-palette-3 rounded-full p-1 text-palette-5 hover:bg-palette-5 hover:text-palette-4">
+            <XIcon className="h-5 w-5 " onClick={_deleteTrait} />
+          </div>
+        )}
+      </Button>
     </div>
   );
 }
