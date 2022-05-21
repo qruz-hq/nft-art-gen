@@ -16,7 +16,7 @@ const traitSlice = createSlice({
       if (trait) trait.name = action.payload.name;
     },
     removeTrait: (state, action) => {
-      state = state.filter(trait => trait.id !== action.payload);
+      return state.filter(trait => trait.id !== action.payload);
     },
     swapIndexes: (state, action) => {
       const { from, to } = action.payload;

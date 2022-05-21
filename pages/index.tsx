@@ -17,7 +17,7 @@ function Home() {
         text-palette-4 w-[300px] font-semibold">
           Gen
         </p>
-        <div className="flex flex-col gap-4">
+        <div className="overflow-y-hidden flex items-center flex-col gap-2 w-full justify-center ">
           <TraitsMenu />
         </div>
         <div className="">Made by 0xqruz</div>

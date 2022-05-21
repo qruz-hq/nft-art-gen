@@ -33,7 +33,7 @@ function AssetManager({ id }: AssetManagerProps) {
 
   return (
     <div className="flex gap-2 items-center">
-      <div className="bg-palette-3 rounded-md flex p-2">
+      <div className="transition-all bg-palette-3 rounded-md flex p-2 cursor-pointer border border-transparent hover:border-palette-2">
         <Image
           src={asset?.src ?? '/asset.png'}
           height={50}
