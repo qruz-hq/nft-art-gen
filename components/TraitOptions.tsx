@@ -93,7 +93,7 @@ export default function TraitOptions() {
       <Button
         className="mt-12"
         type="cta"
-        onClick={() => store.dispatch(openModal({}))}>
+        onClick={() => store.dispatch(openModal({ modalName: 'fileUpload' }))}>
         Add asset
       </Button>
     </>

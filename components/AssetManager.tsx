@@ -1,11 +1,11 @@
 import Slider from '@/components/Slider';
 import { toggleLocked, updateAssetPercentage } from '@/features/assetSlice';
+import { openModal } from '@/features/uiSlice';
 import Asset from 'interfaces/Asset';
 import { UIState } from 'interfaces/UI';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useStore } from 'react-redux';
-
 interface AssetManagerProps {
   id: string;
 }
@@ -32,13 +32,21 @@ function AssetManager({ id }: AssetManagerProps) {
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 items-center">
       <div className="bg-palette-3 rounded-md flex p-2">
         <Image
           src={asset?.src ?? '/asset.png'}
           height={50}
           width={50}
           alt="Asset"
+          onClick={() =>
+            store.dispatch(
+              openModal({
+                modalName: 'fileUpload',
+                modalContent: { assetId: id },
+              }),
+            )
+          }
         />
       </div>
       <div className="flex flex-col self-center items-center">

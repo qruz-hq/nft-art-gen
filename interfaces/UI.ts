@@ -4,7 +4,7 @@ export interface UIState {
   errorMessage: string;
   isSuccess: boolean;
   successMessage: string;
-  isModalOpen: boolean;
-  modalContent: Function;
+  openModals: string[];
+  modalContent: { [key: string]: any };
   traitMenu: undefined;
 }
