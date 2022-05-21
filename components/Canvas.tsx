@@ -30,9 +30,7 @@ export default function Canvas() {
           ((canvas?.current?.height ?? 0) * image.height) / image.width,
         );
         resolve(true);
-        console.log('printed');
       };
-      console.log('set');
       image.src = src;
     });
   }
@@ -69,7 +67,6 @@ export default function Canvas() {
           _rarity += 1 - randomPick.percentage / common;
           console.log(common, randomPick.percentage, _rarity);
           await drawImage(ctx, randomPick.src, 0, 0);
-          console.log('next');
         });
       setRarity(_rarity * 100);
     }
