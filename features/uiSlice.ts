@@ -8,8 +8,8 @@ const uiSlice = createSlice({
     errorMessage: '',
     isSuccess: false,
     successMessage: '',
-    isModalOpen: false,
-    modalContent: {},
+    openModals: [] as string[],
+    modalContent: {} as { [key: string]: any },
     traitMenu: undefined,
   },
   reducers: {
@@ -20,12 +20,16 @@ const uiSlice = createSlice({
       state.isError = action.payload;
     },
     openModal: (state, action) => {
-      state.isModalOpen = true;
-      state.modalContent = action.payload;
+      console.log(action);
+      state.openModals.push(action.payload.modalName);
+      state.modalContent[action.payload.modalName] =
+        action.payload.modalContent;
     },
-    closeModal: state => {
-      state.isModalOpen = false;
-      state.modalContent = {};
+    closeModal: (state, action) => {
+      state.openModals = state.openModals.filter(
+        modalName => modalName !== action.payload,
+      );
+      state.modalContent[action.payload] = undefined;
     },
     setModalContent: (state, action) => {
       state.modalContent = action.payload;

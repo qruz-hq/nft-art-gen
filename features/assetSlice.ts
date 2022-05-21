@@ -20,6 +20,17 @@ const assetSlice = createSlice({
 
       fromTrait.forEach(a => (a.percentage = 100 / fromTrait.length));
     },
+    updateAsset: (state, action) => {
+      const asset = state.find(a => a.id === action.payload.id);
+      if (asset === undefined)
+        throw new Error(
+          `updateAsset: asset with id ${action.payload.id} not found`,
+        );
+
+      asset.name = action.payload.name ?? asset.name;
+      asset.percentage = action.payload.percentage ?? asset.percentage;
+      asset.src = action.payload.src ?? asset.src;
+    },
     toggleLocked: (state, action) => {
       const asset = state.find(asset => asset.id === action.payload.id);
 
@@ -89,6 +100,7 @@ const assetSlice = createSlice({
 export const {
   setAssets,
   addAsset,
+  updateAsset,
   removeAsset,
   updateAssetPercentage,
   toggleLocked,

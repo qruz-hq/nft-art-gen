@@ -1,4 +1,4 @@
-import Modal from '@/components/modal/Modal';
+import FileUploadModal from '@/components/modal/FileUploadModal';
 import assetSlice from '@/features/assetSlice';
 import traitSlice from '@/features/traitSlice';
 import uiSlice from '@/features/uiSlice';
@@ -17,7 +17,7 @@ const store = configureStore({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <Modal />
+      <FileUploadModal />
       <Component {...pageProps} />
     </Provider>
   );
