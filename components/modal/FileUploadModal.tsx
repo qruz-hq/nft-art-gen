@@ -1,5 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { addAsset, updateAsset } from '@/features/assetSlice';
+import {
+  addAsset, removeAsset,
+  updateAsset
+} from '@/features/assetSlice';
 import readImage from '@/features/images';
 import { closeModal } from '@/features/uiSlice';
 import Asset from 'interfaces/Asset';
@@ -17,7 +20,7 @@ export default function FileUploadModal() {
   const [progress, setProgress] = useState(0);
   const [success, setSuccess] = useState(false);
   const [uploaded, setUploaded] = useState(false);
-  const [assetId, setAssetId] = useState(0);
+  const [assetId, setAssetId] = useState(null);
   const [image, setImage] = useState<string>('');
   const [name, setName] = useState('');
   const title = useRef<HTMLInputElement>(null);
@@ -33,7 +36,7 @@ export default function FileUploadModal() {
     e.preventDefault();
     if (!title || !title.current) return;
     if (file) imageLoad(file, title.current.value);
-    if (image) imageLoad(image, title.current.value);
+    else if (image) imageLoad(image, title.current.value);
   };
 
   const updateData = (data: any) => {
@@ -44,6 +47,10 @@ export default function FileUploadModal() {
         setImage(asset.src ?? '');
         setName(asset.name ?? '');
       }
+    } else {
+      setAssetId(null);
+      setImage('');
+      setName('');
     }
   };
 
@@ -67,6 +74,12 @@ export default function FileUploadModal() {
     };
     if (typeof file !== 'string') reader.readAsDataURL(file);
     else dispatch(image);
+  }
+
+  function _deleteAsset() {
+    if (assetId) store.dispatch(removeAsset(assetId));
+    updateData(null);
+    store.dispatch(closeModal('fileUpload'));
   }
 
   return (
@@ -165,7 +178,14 @@ export default function FileUploadModal() {
               </>
             )}
           </div>
-          <Button onClick={onSubmit}>{assetId ? 'Edit' : 'Add'}</Button>
+          <div className="flex max-w-full flex-row gap-2 justify-center items-center">
+            <Button onClick={onSubmit}>{assetId ? 'Edit' : 'Add'}</Button>
+            {assetId && (
+              <Button type="cta" onClick={_deleteAsset}>
+                Delete
+              </Button>
+            )}
+          </div>
         </form>
         {loading && <p>Loading...</p>}
         {success && <p>Success!</p>}

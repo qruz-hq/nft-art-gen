@@ -9,6 +9,7 @@ export default function Modal({ modalName, onData, children }: any) {
   const [data, setData] = useState<Object | null>(null);
 
   store.subscribe(() => {
+    if (!store.getState().ui.openModals) return;
     let open = store.getState().ui.openModals.includes(modalName);
     setIsOpen(open);
     if (open) {
@@ -20,8 +21,8 @@ export default function Modal({ modalName, onData, children }: any) {
   function _closeModal() {
     store.dispatch(closeModal(modalName));
     setIsOpen(false);
-    //TODO : setData
     setData(null);
+    onData(null);
   }
   function handleKeyDown(event: KeyboardEvent) {
     if (

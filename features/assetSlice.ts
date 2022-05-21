@@ -37,7 +37,7 @@ const assetSlice = createSlice({
       if (asset) asset.locked = !asset.locked;
     },
     removeAsset: (state, action) => {
-      state = state.filter(slider => slider.id !== action.payload);
+      return state.filter(slider => slider.id !== action.payload);
     },
     updateAssetPercentage: (state, action) => {
       const asset = state.find(asset => asset.id === action.payload.id);
