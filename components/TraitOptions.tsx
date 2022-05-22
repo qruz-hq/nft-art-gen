@@ -24,14 +24,22 @@ export default function TraitOptions() {
     const newTrait = store
       .getState()
       .traits.find(t => t.id === store.getState().ui.traitMenu);
-    setTrait(newTrait);
-    setAssets(
-      store
-        .getState()
-        .assets.filter(a => a.traitId === store.getState().ui.traitMenu),
-    );
+    if (newTrait?.id !== trait?.id) {
+      setTrait(newTrait);
 
-    if (title.current) title.current.value = newTrait?.name ?? 'New Trait';
+      setAssets(
+        store
+          .getState()
+          .assets.filter(a => a.traitId === store.getState().ui.traitMenu),
+      );
+
+      if (title.current) {
+        title.current.value = newTrait?.name ?? 'New Trait';
+        if (newTrait?.name === 'New Trait') {
+          title.current.focus();
+        }
+      }
+    }
   });
 
   function _addAsset(src: string, name: string) {
@@ -63,10 +71,13 @@ export default function TraitOptions() {
           ref={title}
           contentEditable
           defaultValue={trait.name}
-          onInput={updateTitle}></input>
+          onInput={updateTitle}
+          onFocus={e => {
+            setTimeout(() => e.target.select(), 50);
+          }}></input>
         <svg
           onClick={() => {
-            title?.current?.focus();
+            () => title?.current?.focus();
           }}
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"

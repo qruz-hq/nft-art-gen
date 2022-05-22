@@ -89,7 +89,7 @@ export default function FileUploadModal() {
             <input
               className="w-32 max-w-64 text-palette-4 font-semibold
           focus:bg-palette-2 bg-transparent focus:outline-0 py-5 
-          h-14 text-center rounded-md text-[24px]"
+          h-14 text-center rounded-md text-[24px] cursor-pointer"
               ref={title}
               defaultValue={name || 'New asset'}></input>
             <svg
@@ -141,6 +141,14 @@ export default function FileUploadModal() {
             )}
             {!image && (
               <>
+                <input
+                  type="file"
+                  id="fileUpload"
+                  className="absolute w-full h-full opacity-0 top-0 left-0 cursor-pointer "
+                  onChange={onChange}
+                  max={1}
+                  accept="image/png"
+                />
                 <label
                   ref={label as LegacyRef<HTMLLabelElement>}
                   htmlFor="fileUpload"
@@ -164,14 +172,6 @@ export default function FileUploadModal() {
                   </svg>
                   Upload File
                 </label>
-                <input
-                  type="file"
-                  id="fileUpload"
-                  className="absolute w-full h-full opacity-0 top-0 left-0"
-                  onChange={onChange}
-                  max={1}
-                  accept="image/png"
-                />
               </>
             )}
           </div>
