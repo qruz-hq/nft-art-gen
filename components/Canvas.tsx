@@ -85,9 +85,11 @@ export default function Canvas() {
     setRarity(_rarity * 1000);
     setTimeout(() => {
       canvas.current?.toBlob(blob => {
-        addToCollection(blob);
-        genIndex++;
-        generate();
+        if (blob) {
+          addToCollection(blob);
+          genIndex++;
+          generate();
+        }
       });
     }, 200);
   }
