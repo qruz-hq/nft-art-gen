@@ -1,4 +1,5 @@
 import { addTrait } from '@/features/traitSlice';
+import { setTraitMenu } from '@/features/uiSlice';
 import Trait from 'interfaces/Trait';
 import { useState } from 'react';
 import { useStore } from 'react-redux';
@@ -16,6 +17,11 @@ export default function TraitsMenu() {
       index: store.getState().traits.length,
     };
     store.dispatch(addTrait(newTrait));
+    _openMenu(newTrait.id);
+  }
+
+  function _openMenu(traitId: number) {
+    store.dispatch(setTraitMenu(traitId));
   }
 
   store.subscribe(() => {
