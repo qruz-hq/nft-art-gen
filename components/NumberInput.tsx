@@ -17,17 +17,20 @@ export default function NumberInput(props: NumberInputProps) {
     }
   };
   return (
-    <div className="flex flex-row gap-2 items-center bg-palette-3 p-2 rounded-md">
+    <div
+      className="flex flex-row gap-2 
+    items-center bg-palette-3 p-2 rounded-md">
       <MinusIcon
         className="h-5 w-5 cursor-pointer"
         onClick={() => {
-          add(-props.step || -1);
+          add(-(props?.step || 1));
         }}
       />
       <input
         type="number"
         ref={inp}
-        className="bg-transparent text-palette-4 [appearance:textfield] focus:outline-none text-center text-xl w-5
+        className="bg-transparent text-palette-4 [appearance:textfield] 
+        focus:outline-none text-center text-xl w-5
         mx-2"
         value={props.value}
         onChange={e => props.onChange(Number(e.target.value))}
