@@ -1,11 +1,13 @@
 import { createDistribution, randomIndex } from '@/features/mathUtils';
 import { saveAs } from 'file-saver';
 import Asset from 'interfaces/Asset';
+import NFTAttributes from 'interfaces/NFTAttributes';
 import Trait from 'interfaces/Trait';
 import JSZip from 'jszip';
 import { LegacyRef, useRef, useState } from 'react';
 import { useStore } from 'react-redux';
 import Button from './buttons/Button';
+import NumberInput from './NumberInput';
 
 export default function Canvas() {
   const canvas = useRef<HTMLCanvasElement | undefined>(undefined);
@@ -13,7 +15,8 @@ export default function Canvas() {
   const store = useStore<{ traits: Trait[]; assets: Asset[] }>();
   const [rarity, setRarity] = useState<number>(0);
   const [traits, setTraits] = useState<Trait[]>(store.getState().traits);
-  const [collectionLength, setCollectionLength] = useState<number>(100);
+  const [collectionLength, setCollectionLength] = useState<number>(20);
+  const attributes: NFTAttributes[][] = [];
   const blobs = [];
   let genIndex = 0;
 
@@ -59,7 +62,7 @@ export default function Canvas() {
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.current.width, canvas.current.height);
     let _rarity = 0;
-
+    attributes[genIndex] = [];
     [...store.getState().traits]
       .sort((a, b) => b.index - a.index)
       .forEach(async trait => {
@@ -78,6 +81,10 @@ export default function Canvas() {
         );
 
         const randomPick = assets[randomIndex(distribution)];
+        attributes[genIndex].push({
+          trait_type: trait.name,
+          value: randomPick.name,
+        });
         _rarity += 1 - randomPick.percentage / common;
         console.log(common, randomPick.percentage, _rarity);
         await drawImage(ctx, randomPick.src, 0, 0);
@@ -94,7 +101,7 @@ export default function Canvas() {
     }, 200);
   }
 
-  //User should be able to generate a collection of nb of assets * nb of traits NFTs
+  // User should be able to generate a collection of nb of assets * nb of traits NFTs
   // and download the collection as a .zip file
   // Each NFT should have it's own image and a json file with the following structure:
   // {
@@ -113,6 +120,13 @@ export default function Canvas() {
   function addToCollection(b: Blob) {
     if (b) {
       zip.file(genIndex + '.jpeg', b);
+      zip.file(
+        genIndex + '.json',
+        JSON.stringify({
+          name: 'NFT #' + genIndex,
+          attritbutes: attributes[genIndex],
+        }),
+      );
       blobs.push(b);
     }
   }
@@ -142,9 +156,12 @@ export default function Canvas() {
       <p>
         Rarity : {rarity.toFixed(2)}/{traits.length * 100}
       </p>
-      <Button type="cta" onClick={generate}>
-        Generate
-      </Button>
+      <div className="flex flex-row gap-4">
+        <NumberInput value={collectionLength} onChange={setCollectionLength} />
+        <Button type="cta" onClick={generate}>
+          Generate
+        </Button>
+      </div>
     </div>
   );
 }
