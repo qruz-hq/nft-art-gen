@@ -34,3 +34,11 @@ input[type='range']::-webkit-slider-thumb {
   @apply rounded-full;
   @apply cursor-pointer;
 }
+
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
